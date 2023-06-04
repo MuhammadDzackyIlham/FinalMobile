@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background_apps">#161d27</color>
+    <color name="bottom_navbar">#212d3b</color>
+    <color name="icon">#384655</color>
+    <color name="rating">#E7E40C</color>
+    <color name="release_date">#52a2f7</color>
 </resources>
