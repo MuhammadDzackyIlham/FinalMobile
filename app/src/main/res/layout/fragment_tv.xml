@@ -16,6 +16,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:paddingBottom="?actionBarSize"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/list_item_tv" />
 
@@ -25,6 +26,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:progressTint="@color/bottom_navbar" />
-
 
 </FrameLayout>
