@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.Handler;
 import android.util.Log;
@@ -26,15 +27,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import com.example.h071211071_finalmobile.R;
 import com.example.h071211071_finalmobile.adapter.MovieAdapter;
 import com.example.h071211071_finalmobile.model.ModelMovie;
-import com.example.h071211071_finalmobile.networking.ApiResponse;
+import com.example.h071211071_finalmobile.DataResponse.MovieDataResponse;
 import com.example.h071211071_finalmobile.networking.TMDBApiService;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MovieFragment extends Fragment {
@@ -69,17 +67,18 @@ public class MovieFragment extends Fragment {
 
     public void connectAndGetApiData() {
             recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+           recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
             retrofit = new Retrofit
                     .Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         TMDBApiService tmdbApiService = retrofit.create(TMDBApiService.class);
-        Call<ApiResponse> call = tmdbApiService.getNowPlaying();
-        call.enqueue(new Callback<ApiResponse>() {
+        Call<MovieDataResponse> call = tmdbApiService.getNowPlaying();
+        call.enqueue(new Callback<MovieDataResponse>() {
             @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+            public void onResponse(Call<MovieDataResponse> call, Response<MovieDataResponse> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "onResponse: CEK");
                     if (response.body().getModelMovie() != null) {
@@ -87,7 +86,7 @@ public class MovieFragment extends Fragment {
                         for (int i = 0; i <movies.size() ; i++) {
                             System.out.println(movies.get(i).getOriginalTitle());
                         }
-                            adapter = new MovieAdapter(movies);
+                        adapter = new MovieAdapter(movies);
                         recyclerView.setAdapter(adapter);
                     }
                 } else {
@@ -96,7 +95,7 @@ public class MovieFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
+            public void onFailure(Call<MovieDataResponse> call, Throwable t) {
                 Log.d(TAG, "onResponse: Failed To Fetch Data2");
             }
         });

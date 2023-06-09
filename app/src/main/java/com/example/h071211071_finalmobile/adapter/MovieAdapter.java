@@ -2,7 +2,6 @@ package com.example.h071211071_finalmobile.adapter;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +10,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.h071211071_finalmobile.R;
 import com.example.h071211071_finalmobile.model.ModelMovie;
-import com.squareup.picasso.Picasso;
+import com.example.h071211071_finalmobile.model.ModelTv;
 
 import java.util.List;
 

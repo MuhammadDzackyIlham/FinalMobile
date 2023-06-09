@@ -12,6 +12,9 @@ public class ModelMovie {
     @SerializedName("poster_path")
     private String posterPath;
 
+    @SerializedName("overview")
+    private String overview;
+
     @SerializedName("original_title")
     private String originalTitle;
 
@@ -21,7 +24,7 @@ public class ModelMovie {
     @SerializedName("vote_average")
     private Double voteAverage;
 
-    public ModelMovie(String id, String backdropPath, String posterPath, String originalTitle, String releaseDate, Double voteAverage ) {
+    public ModelMovie(String id, String backdropPath, String posterPath, String overview, String originalTitle, String releaseDate, Double voteAverage ) {
         this.id = id; this.backdropPath = backdropPath; this.posterPath = posterPath; this.originalTitle = originalTitle;
         this.releaseDate = releaseDate;this.voteAverage = voteAverage;
     }
@@ -48,6 +51,14 @@ public class ModelMovie {
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public String getOriginalTitle() {
