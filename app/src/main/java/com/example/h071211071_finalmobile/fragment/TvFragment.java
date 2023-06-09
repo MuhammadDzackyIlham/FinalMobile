@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,10 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.example.h071211071_finalmobile.DataResponse.TvDataResponse;
 import com.example.h071211071_finalmobile.R;
 import com.example.h071211071_finalmobile.adapter.TvAdapter;
 import com.example.h071211071_finalmobile.model.ModelTv;
-import com.example.h071211071_finalmobile.networking.ApiResponse;
 import com.example.h071211071_finalmobile.networking.TMDBApiService;
 
 import org.jetbrains.annotations.Nullable;
@@ -39,27 +40,31 @@ public class TvFragment extends Fragment {
     RecyclerView recyclerView;
     private Retrofit retrofit;
     TvAdapter adapter;
+    ModelTv modelTv;
+
+    ConstraintLayout constraintLayout;
+    List<TvDataResponse> dataResponses;
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tv, container, false);
     }
-
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         progressBar = view.findViewById(R.id.progressBar);
+        constraintLayout =  view.findViewById(R.id.layoutTv);
 
         Handler handler = new Handler();
         handler.postDelayed(() ->{
             progressBar.setVisibility(View.INVISIBLE);
         },1000);
-
         recyclerView = view.findViewById(R.id.rvTv);
+
+
         connectAndGetApiData();
     }
 
@@ -72,23 +77,31 @@ public class TvFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         TMDBApiService tmdbApiService = retrofit.create(TMDBApiService.class);
-        Call<ApiResponse> call = tmdbApiService.getAiringToday();
-        call.enqueue(new Callback<ApiResponse>() {
+        Call<TvDataResponse> call = tmdbApiService.getAiringToday();
+        System.out.println("2");
+
+        call.enqueue(new Callback<TvDataResponse>() {
             @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+            public void onResponse(Call<TvDataResponse> call, Response<TvDataResponse> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getModelTv() != null) {
-                        List<ModelTv> tvs = response.body().getModelTv();
-                        adapter = new TvAdapter(tvs);
+                    Log.d(TAG, "onResponse: CEK" + response.body().getModelTv());
+                        if (response.body().getModelTv() != null) {
+                        List<ModelTv> tvList = response.body().getModelTv();
+                        for (int i = 0; i <tvList.size() ; i++) {
+                            System.out.println(tvList.get(i).getOriginalTitle());
+                        }
+                            System.out.println("1");
+                        adapter = new TvAdapter(tvList);
+                            System.out.println(tvList);
                         recyclerView.setAdapter(adapter);
                     }
                 } else {
-                        Log.d(TAG, "onResponse: Failed To Fetch Data1");
-                    }
+                    Log.d(TAG, "onResponse: Failed To Fetch Data1");
                 }
+            }
 
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
+            public void onFailure(Call<TvDataResponse> call, Throwable t) {
                 Log.d(TAG, "onResponse: Failed To Fetch Data2");
             }
         });

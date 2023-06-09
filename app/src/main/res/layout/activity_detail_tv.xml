@@ -9,7 +9,7 @@
     tools:context=".activity.DetailTvActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/photoAlbumDetail"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:scaleType="fitXY"
@@ -42,7 +42,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="90dp"
@@ -55,7 +54,7 @@
         app:cardElevation="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/photoAlbumDetail">
 
         <ImageView
             android:id="@+id/imgDetailTv"
@@ -191,6 +190,5 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
