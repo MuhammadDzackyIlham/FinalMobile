@@ -27,58 +27,78 @@ import java.util.List;
 public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvViewHolder> {
 
     private List<ModelTv> tvs;
-
+    private OnMovieListener onMovieListener;
 
     public static final String IMAGE_URL_BASE_PATH="https://image.tmdb.org/t/p/original";
-    public TvAdapter (List<ModelTv> tvs) {
+    public TvAdapter (List  <ModelTv> tvs, OnMovieListener onMovieListener) {
         this.tvs = tvs;
+        this.onMovieListener = onMovieListener;
     }
 
     public static class TvViewHolder extends RecyclerView.ViewHolder {
         FrameLayout TvLayout;
         TextView TvTitle,releaseDate;
         ImageView TvImage;
-        ConstraintLayout constraintLayout;
-        public TvViewHolder(View itemView) {
+        OnMovieListener onMovieListener;
+
+        public TvViewHolder(View itemView, final OnMovieListener onMovieListener) {
             super(itemView);
             TvLayout = (FrameLayout) itemView.findViewById(R.id.frame_layout_tv);
             TvImage = (ImageView) itemView.findViewById(R.id.imgPhotoTv);
             TvTitle = (TextView) itemView.findViewById(R.id.tittleTv);
             releaseDate = (TextView) itemView.findViewById(R.id.realeseDateTv);
-//            constraintLayout = (ConstraintLayout) itemView.findViewById(R.id.layoutTv);
+            this.onMovieListener = onMovieListener;
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onMovieListener.onMovieClick(getAdapterPosition());
+                }
+            });
         }
     }
 
     @Override
     public TvAdapter.TvViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_tv,parent, false);
-        return new TvAdapter.TvViewHolder(view);
+        return new TvAdapter.TvViewHolder(view, onMovieListener);
     }
 
     @Override
-    public void onBindViewHolder( TvAdapter.TvViewHolder holder,final int position) {
-//        ModelTv modelTv = tvs.get(position);
+    public void onBindViewHolder( TvViewHolder holder, final int position) {
         String image_url = IMAGE_URL_BASE_PATH + tvs.get(position).getPosterPath();
         Log.d(TAG, "onResponse: CEK" + image_url);
         Glide.with(holder.itemView.getContext()).load(image_url).into(holder.TvImage);
         holder.TvTitle.setText(tvs.get(position).getOriginalTitle());
         holder.releaseDate.setText(tvs.get(position).getReleaseDate());
-
         System.out.println(position);
-
-//        holder.constraintLayout.setOnClickListener(view -> {
-//            Intent i = new Intent(view.getContext(), DetailTvActivity.class);
-//            i.putExtra("dataTv", modelTv);
-//            view.getContext().startActivity(i);
-//        });
     }
-//    public ModelMovie getSelectedMovie (int position){
-//
-//    }
 
     @Override
     public int getItemCount() {
         return tvs.size();
-        }
     }
+    public interface OnTvListener {
+        void onTvClick(int position);
+    }
+    public interface OnMovieListener {
+        void onMovieClick(int position);
+    }
+
+    public void setmTvs(List<ModelTv> tvs) {
+        this.tvs = tvs;
+        notifyDataSetChanged();
+    }
+
+    public ModelTv getSelectedTv(int position) {
+        if (tvs != null) {
+            if (tvs.size() > 0) {
+                return tvs.get(position);
+            }
+        }
+        return null;
+        }
+
+
+}
 

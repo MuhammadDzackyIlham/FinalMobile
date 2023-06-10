@@ -2,6 +2,7 @@ package com.example.h071211071_finalmobile.fragment;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,9 @@ import android.widget.ProgressBar;
 
 import com.example.h071211071_finalmobile.DataResponse.TvDataResponse;
 import com.example.h071211071_finalmobile.R;
+import com.example.h071211071_finalmobile.activity.DetailMovieActivity;
 import com.example.h071211071_finalmobile.adapter.TvAdapter;
+import com.example.h071211071_finalmobile.model.ModelMovie;
 import com.example.h071211071_finalmobile.model.ModelTv;
 import com.example.h071211071_finalmobile.networking.TMDBApiService;
 
@@ -34,12 +37,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class TvFragment extends Fragment {
+public class TvFragment extends Fragment implements TvAdapter.OnMovieListener{
 
     ProgressBar progressBar;
     RecyclerView recyclerView;
     private Retrofit retrofit;
     TvAdapter adapter;
+    ModelTv modelTv;
 
     ConstraintLayout constraintLayout;
     List<TvDataResponse> dataResponses;
@@ -48,7 +52,6 @@ public class TvFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tv, container, false);
     }
 
@@ -57,23 +60,7 @@ public class TvFragment extends Fragment {
 
         progressBar = view.findViewById(R.id.progressBar);
         constraintLayout =  view.findViewById(R.id.layoutTv);
-
-        Handler handler = new Handler();
-        handler.postDelayed(() ->{
-            progressBar.setVisibility(View.INVISIBLE);
-        },1000);
         recyclerView = view.findViewById(R.id.rvTv);
-
-//        constraintLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(getActivity(), MainActivity.class);
-//
-//                startActivity(i);
-//            }
-//        });
-
-
         connectAndGetApiData();
     }
 
@@ -87,18 +74,22 @@ public class TvFragment extends Fragment {
                 .build();
         TMDBApiService tmdbApiService = retrofit.create(TMDBApiService.class);
         Call<TvDataResponse> call = tmdbApiService.getAiringToday();
+        System.out.println("2");
 
         call.enqueue(new Callback<TvDataResponse>() {
             @Override
             public void onResponse(Call<TvDataResponse> call, Response<TvDataResponse> response) {
                 if (response.isSuccessful()) {
-                    Log.d(TAG, "onResponse: CEK");
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Log.d(TAG, "onResponse: CEK" + response.body().getModelTv());
                     if (response.body().getModelTv() != null) {
                         List<ModelTv> tvList = response.body().getModelTv();
                         for (int i = 0; i <tvList.size() ; i++) {
                             System.out.println(tvList.get(i).getOriginalTitle());
                         }
-                        adapter = new TvAdapter(tvList);
+                        System.out.println("1");
+                        adapter = new TvAdapter(tvList, TvFragment.this);
+                        System.out.println(tvList);
                         recyclerView.setAdapter(adapter);
                     }
                 } else {
@@ -111,6 +102,33 @@ public class TvFragment extends Fragment {
                 Log.d(TAG, "onResponse: Failed To Fetch Data2");
             }
         });
+    }
+
+    @Override
+    public void onMovieClick(int position) {
+        ModelTv clickedTv = adapter.getSelectedTv(position);
+
+        // Membuat Intent untuk membuka DetailMovieActivity
+        Intent intent = new Intent(getActivity(), DetailMovieActivity.class);
+
+        Log.d("MovieFragment Vote Average", "onMovieClick: " + clickedTv.getVoteAverage());
+        // Menambahkan data ke dalam bundle
+        Bundle bundle = new Bundle();
+        bundle.putString("title", clickedTv.getOriginalTitle());
+        bundle.putString("overview", clickedTv.getOverview());
+        bundle.putString("release_date", clickedTv.getReleaseDate());
+        bundle.putString("poster_path", clickedTv.getPosterPath());
+        bundle.putString("backdrop_path", clickedTv.getBackdropPath());
+        bundle.putString("vote_average", clickedTv.getVoteAverage().toString());
+        bundle.putString("vote_count", clickedTv.getVoteAverage().toString());
+        bundle.putString("id", clickedTv.getId());
+
+        // Menambahkan bundle ke dalam intent
+        intent.putExtras(bundle);
+
+        // Menjalankan intent
+        startActivity(intent);
+
     }
 
 }

@@ -1,8 +1,13 @@
 package com.example.h071211071_finalmobile.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
-public class ModelMovie {
+public class ModelMovie implements Parcelable {
     @SerializedName("id")
     private String id;
 
@@ -28,6 +33,32 @@ public class ModelMovie {
         this.id = id; this.backdropPath = backdropPath; this.posterPath = posterPath; this.originalTitle = originalTitle;
         this.releaseDate = releaseDate;this.voteAverage = voteAverage;
     }
+
+    protected ModelMovie(Parcel in) {
+        id = in.readString();
+        backdropPath = in.readString();
+        posterPath = in.readString();
+        overview = in.readString();
+        originalTitle = in.readString();
+        releaseDate = in.readString();
+        if (in.readByte() == 0) {
+            voteAverage = null;
+        } else {
+            voteAverage = in.readDouble();
+        }
+    }
+
+    public static final Creator<ModelMovie> CREATOR = new Creator<ModelMovie>() {
+        @Override
+        public ModelMovie createFromParcel(Parcel in) {
+            return new ModelMovie(in);
+        }
+
+        @Override
+        public ModelMovie[] newArray(int size) {
+            return new ModelMovie[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -85,4 +116,37 @@ public class ModelMovie {
         this.voteAverage = voteAverage;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(backdropPath);
+        parcel.writeString(posterPath);
+        parcel.writeString(overview);
+        parcel.writeString(originalTitle);
+        parcel.writeString(releaseDate);
+        if (voteAverage == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeDouble(voteAverage);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ModelMovie{" +
+                "id='" + id + '\'' +
+                ", backdropPath='" + backdropPath + '\'' +
+                ", posterPath='" + posterPath + '\'' +
+                ", overview='" + overview + '\'' +
+                ", originalTitle='" + originalTitle + '\'' +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", voteAverage=" + voteAverage +
+                '}';
+    }
 }

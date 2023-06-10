@@ -8,8 +8,9 @@
     android:background="@color/background_apps"
     tools:context=".activity.DetailTvActivity">
 
+
     <ImageView
-        android:id="@+id/photoAlbumDetail"
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:scaleType="fitXY"
@@ -18,28 +19,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/btn_back"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
+    <ImageView
+        android:id="@+id/btn_backTv"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/btn_addFavorite"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_favorite_border"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
@@ -54,7 +41,7 @@
         app:cardElevation="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/photoAlbumDetail">
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <ImageView
             android:id="@+id/imgDetailTv"
@@ -109,15 +96,6 @@
                 android:layout_marginTop="10dp">
 
                 <ImageView
-                    android:id="@+id/iconDetailTv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="160dp"
-                    android:src="@drawable/ic_movie"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
                     android:id="@+id/iconDetailRating"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -134,8 +112,21 @@
                     android:layout_height="25sp"
                     android:gravity="center"
                     android:text="7,8"
+                    android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@+id/iconDetailRating"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iconDetailMovie"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_movie"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/iconDetailRating"
+                    app:layout_constraintHorizontal_bias="0.9"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -167,7 +158,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tvDescDetail"
+                    android:id="@+id/MovieDescDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Synopsis :"
@@ -179,7 +170,7 @@
                     android:id="@+id/tvOverviewDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvDescDetail"
+                    android:layout_below="@+id/MovieDescDetail"
                     android:layout_marginTop="5dp"
                     android:text="lorem ipsum dolor sir amet"
                     android:textColor="@android:color/white"
@@ -190,5 +181,6 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,15 +7,15 @@ import java.util.List;
 
 public class MovieDataResponse {
     @SerializedName("results")
-    private List<ModelMovie> modelMovie;
+    private List<ModelMovie> results;
 
 
     public List<ModelMovie> getModelMovie() {
-        return modelMovie;
+        return results;
     }
 
     public void setModelMovie(List<ModelMovie> modelMovie) {
-        this.modelMovie = modelMovie;
+        this.results = modelMovie;
     }
 
 

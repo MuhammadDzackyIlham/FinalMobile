@@ -7,15 +7,14 @@ import java.util.List;
 
 public class TvDataResponse {
     @SerializedName("results")
-    public  List<ModelTv> modelTv;
+    public List<ModelTv> results;
 
     public List<ModelTv> getModelTv() {
-        return modelTv;
+        return results;
     }
 
     public void setModelTv(List<ModelTv> modelTv) {
-        this.modelTv = modelTv;
+        this.results = modelTv;
     }
-
 
 }
