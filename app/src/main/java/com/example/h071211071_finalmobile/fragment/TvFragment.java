@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import com.example.h071211071_finalmobile.DataResponse.TvDataResponse;
 import com.example.h071211071_finalmobile.R;
 import com.example.h071211071_finalmobile.activity.DetailMovieActivity;
+import com.example.h071211071_finalmobile.activity.DetailTvActivity;
 import com.example.h071211071_finalmobile.adapter.TvAdapter;
 import com.example.h071211071_finalmobile.model.ModelMovie;
 import com.example.h071211071_finalmobile.model.ModelTv;
@@ -106,27 +107,12 @@ public class TvFragment extends Fragment implements TvAdapter.OnMovieListener{
 
     @Override
     public void onMovieClick(int position) {
-        ModelTv clickedTv = adapter.getSelectedTv(position);
+        ModelTv clickedMovie = adapter.getSelectedTv(position);
 
-        // Membuat Intent untuk membuka DetailMovieActivity
-        Intent intent = new Intent(getActivity(), DetailMovieActivity.class);
-
-        Log.d("MovieFragment Vote Average", "onMovieClick: " + clickedTv.getVoteAverage());
-        // Menambahkan data ke dalam bundle
+        Intent intent = new Intent(getActivity(), DetailTvActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("title", clickedTv.getOriginalTitle());
-        bundle.putString("overview", clickedTv.getOverview());
-        bundle.putString("release_date", clickedTv.getReleaseDate());
-        bundle.putString("poster_path", clickedTv.getPosterPath());
-        bundle.putString("backdrop_path", clickedTv.getBackdropPath());
-        bundle.putString("vote_average", clickedTv.getVoteAverage().toString());
-        bundle.putString("vote_count", clickedTv.getVoteAverage().toString());
-        bundle.putString("id", clickedTv.getId());
-
-        // Menambahkan bundle ke dalam intent
+        bundle.putParcelable(DetailTvActivity.EXTRA_TV, clickedMovie);
         intent.putExtras(bundle);
-
-        // Menjalankan intent
         startActivity(intent);
 
     }

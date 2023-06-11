@@ -5,6 +5,8 @@ import static android.content.ContentValues.TAG;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -99,25 +101,10 @@ public class MovieFragment extends Fragment implements MovieAdapter.OnMovieListe
     public void onMovieClick(int position) {
         ModelMovie clickedMovie = adapter.getSelectedMovie(position);
 
-        // Membuat Intent untuk membuka DetailMovieActivity
         Intent intent = new Intent(getActivity(), DetailMovieActivity.class);
-
-        Log.d("MovieFragment Vote Average", "onMovieClick: " + clickedMovie.getVoteAverage());
-        // Menambahkan data ke dalam bundle
         Bundle bundle = new Bundle();
-        bundle.putString("title", clickedMovie.getOriginalTitle());
-        bundle.putString("overview", clickedMovie.getOverview());
-        bundle.putString("release_date", clickedMovie.getReleaseDate());
-        bundle.putString("poster_path", clickedMovie.getPosterPath());
-        bundle.putString("backdrop_path", clickedMovie.getBackdropPath());
-        bundle.putString("vote_average", clickedMovie.getVoteAverage().toString());
-        bundle.putString("vote_count", clickedMovie.getVoteAverage().toString());
-        bundle.putString("id", clickedMovie.getId());
-
-        // Menambahkan bundle ke dalam intent
+        bundle.putParcelable(DetailMovieActivity.EXTRA_MOVIE, clickedMovie);
         intent.putExtras(bundle);
-
-        // Menjalankan intent
         startActivity(intent);
 
     }

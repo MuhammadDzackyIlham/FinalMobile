@@ -3,8 +3,6 @@ package com.example.h071211071_finalmobile.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 import com.google.gson.annotations.SerializedName;
 
 public class ModelMovie implements Parcelable {
@@ -27,11 +25,16 @@ public class ModelMovie implements Parcelable {
     private String releaseDate;
 
     @SerializedName("vote_average")
-    private Double voteAverage;
+    private double voteAverage;
 
-    public ModelMovie(String id, String backdropPath, String posterPath, String overview, String originalTitle, String releaseDate, Double voteAverage ) {
-        this.id = id; this.backdropPath = backdropPath; this.posterPath = posterPath; this.originalTitle = originalTitle;
-        this.releaseDate = releaseDate;this.voteAverage = voteAverage;
+    public ModelMovie(String id, String backdropPath, String posterPath, String overview, String originalTitle, String releaseDate, double voteAverage) {
+        this.id = id;
+        this.backdropPath = backdropPath;
+        this.posterPath = posterPath;
+        this.overview = overview;
+        this.originalTitle = originalTitle;
+        this.releaseDate = releaseDate;
+        this.voteAverage = voteAverage;
     }
 
     protected ModelMovie(Parcel in) {
@@ -41,11 +44,7 @@ public class ModelMovie implements Parcelable {
         overview = in.readString();
         originalTitle = in.readString();
         releaseDate = in.readString();
-        if (in.readByte() == 0) {
-            voteAverage = null;
-        } else {
-            voteAverage = in.readDouble();
-        }
+        voteAverage = in.readDouble();
     }
 
     public static final Creator<ModelMovie> CREATOR = new Creator<ModelMovie>() {
@@ -108,11 +107,11 @@ public class ModelMovie implements Parcelable {
         this.releaseDate = releaseDate;
     }
 
-    public Double getVoteAverage() {
+    public double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(Double voteAverage) {
+    public void setVoteAverage(double voteAverage) {
         this.voteAverage = voteAverage;
     }
 
@@ -122,25 +121,20 @@ public class ModelMovie implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(id);
         parcel.writeString(backdropPath);
         parcel.writeString(posterPath);
         parcel.writeString(overview);
         parcel.writeString(originalTitle);
         parcel.writeString(releaseDate);
-        if (voteAverage == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeDouble(voteAverage);
-        }
+        parcel.writeDouble(voteAverage);
     }
 
     @Override
     public String toString() {
         return "ModelMovie{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", backdropPath='" + backdropPath + '\'' +
                 ", posterPath='" + posterPath + '\'' +
                 ", overview='" + overview + '\'' +

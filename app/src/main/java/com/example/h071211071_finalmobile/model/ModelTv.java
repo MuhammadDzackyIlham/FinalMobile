@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ModelTv {
+public class ModelTv implements Parcelable {
     @SerializedName("id")
     private String id;
 
@@ -27,38 +27,39 @@ public class ModelTv {
     private String releaseDate;
 
     @SerializedName("vote_average")
-    private Double voteAverage;
+    private double voteAverage;
 
-    public ModelTv (String id, String backdropPath, String posterPath, String overview, String originalTitle, String releaseDate, Double voteAverage ) {
-        this.id = id; this.backdropPath = backdropPath; this.posterPath = posterPath; this.originalTitle = originalTitle;
-        this.releaseDate = releaseDate;this.voteAverage = voteAverage;
+    public ModelTv(String id, String backdropPath, String posterPath, String overview, String originalTitle, String releaseDate, double voteAverage) {
+        this.id = id;
+        this.backdropPath = backdropPath;
+        this.posterPath = posterPath;
+        this.overview = overview;
+        this.originalTitle = originalTitle;
+        this.releaseDate = releaseDate;
+        this.voteAverage = voteAverage;
     }
 
-//    protected ModelTv(Parcel in) {
-//        id = in.readString();
-//        backdropPath = in.readString();
-//        posterPath = in.readString();
-//        overview = in.readString();
-//        originalTitle = in.readString();
-//        releaseDate = in.readString();
-//        if (in.readByte() == 0) {
-//            voteAverage = null;
-//        } else {
-//            voteAverage = in.readDouble();
-//        }
-//    }
+    protected ModelTv(Parcel in) {
+        id = in.readString();
+        backdropPath = in.readString();
+        posterPath = in.readString();
+        overview = in.readString();
+        originalTitle = in.readString();
+        releaseDate = in.readString();
+        voteAverage = in.readDouble();
+    }
 
-//    public static final Creator<ModelTv> CREATOR = new Creator<ModelTv>() {
-//        @Override
-//        public ModelTv createFromParcel(Parcel in) {
-//            return new ModelTv(in);
-//        }
-//
-//        @Override
-//        public ModelTv[] newArray(int size) {
-//            return new ModelTv[size];
-//        }
-//    };
+    public static final Creator<ModelTv> CREATOR = new Creator<ModelTv>() {
+        @Override
+        public ModelTv createFromParcel(Parcel in) {
+            return new ModelTv(in);
+        }
+
+        @Override
+        public ModelTv[] newArray(int size) {
+            return new ModelTv[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -120,19 +121,15 @@ public class ModelTv {
         return 0;
     }
 
-//    @Override
-//    public void writeToParcel(@NonNull Parcel parcel, int i) {
-//        parcel.writeString(id);
-//        parcel.writeString(backdropPath);
-//        parcel.writeString(posterPath);
-//        parcel.writeString(overview);
-//        parcel.writeString(originalTitle);
-//        parcel.writeString(releaseDate);
-//        if (voteAverage == null) {
-//            parcel.writeByte((byte) 0);
-//        } else {
-//            parcel.writeByte((byte) 1);
-//            parcel.writeDouble(voteAverage);
-//        }
-//    }
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+
+        parcel.writeString(id);
+        parcel.writeString(backdropPath);
+        parcel.writeString(posterPath);
+        parcel.writeString(overview);
+        parcel.writeString(originalTitle);
+        parcel.writeString(releaseDate);
+        parcel.writeDouble(voteAverage);
+    }
 }

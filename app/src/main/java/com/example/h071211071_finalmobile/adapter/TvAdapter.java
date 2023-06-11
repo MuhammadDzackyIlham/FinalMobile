@@ -97,7 +97,7 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvViewHolder> {
             }
         }
         return null;
-        }
+    }
 
 
 }
